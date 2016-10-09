@@ -207,6 +207,12 @@ public interface ParserBCConstants {
     "<REAL>",
     "<ENDSTRING>",
     "<STRING>",
+    "\"s\"",
+    "\"c\"",
+    "\"e\"",
+    "\"l\"",
+    "\"a\"",
+    "\"j\"",
   };
 
 }

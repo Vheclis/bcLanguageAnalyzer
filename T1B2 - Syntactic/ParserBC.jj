@@ -3,20 +3,21 @@ PARSER_BEGIN(ParserBC)
 public class ParserBC 
 {
   
-	public  static void main(String args[]) 
-	{
+  public  static void main(String args[]) 
+  {
 
-	    
-	    try 
-	    {
-	    	ParserBC parser = new ParserBC (System.in);
-		    
-	    } 
-	    catch (Throwable e) 
-	    {
-	        System.out.printf("ERRO EM (%d, %d)\n\n", token.beginLine, token.beginColumn);
-	    }
-	}  
+      
+      try 
+      {
+        ParserBC parser = new ParserBC (System.in);
+        parser.bc();
+        System.out.println("SUCESSO");
+      } 
+      catch (Throwable e) 
+      {
+        System.out.println(e.getMessage());
+      }
+  }  
 
 } 
 
@@ -41,8 +42,11 @@ SKIP :
 
 TOKEN :
 {
-  < SEPARADOR: ";" | "\n" | "|" > 
+  < PONTO_VIRGULA : ";" >
+  | < SEPARADOR: <PONTO_VIRGULA> |"\n" | "|" > 
   | <DEFINICAO: "define" > 
+  | < ABRE_COLCHETE : "[" >
+  | < FECHA_COLCHETE : "]" >
   | < ABRE_CHAVES: "{" > 
   | < FECHA_CHAVES: "}" > 
   | < ABRE_PARENTESES: "("> 
@@ -50,7 +54,6 @@ TOKEN :
   | < IGUAL: "==" > 
   | < ASPAS_DUPLAS: "\"" > : ESTADO_STRING 
   | < OU_LOGICO: "||" > 
-  | < EXRESSAO: < OU_LOGICO > >
   | < E_LOGICO: "&&" > 
   | < NEGACAO: "!" > 
   | < MENOR_IGUAL: "<=" > 
@@ -74,14 +77,15 @@ TOKEN :
   | < INCREMENTO: "++" > 
   | < DECREMENTO: "--" > 
   | < PONTO: "." >
+  | < VIRGULA : "," >
 
-
+  | < AUTO: "auto" >
   | < IF: "if" > 
-  | < ELSE: "else" >
+  | < ELSE : "else" >
   | < WHILE: "while" > 
   | < FOR: "for" > 
   | < NULL: < SEPARADOR > | "null" > 
-  |	< BREAK: "break" > 
+  | < BREAK: "break" > 
   | < CONTINUE: "continue" > 
   | < QUIT: "quit" > 
   | < PRINT: "print" > 
@@ -94,15 +98,16 @@ TOKEN :
   | < RETORNO: "return" > 
 
 
-  | < ID: <LETRA> (<LETRA>|<DIGITO>)* >
+  | < ID: <LETRA> (<LETRA>|<INTEIRO>)*  >
   | < LETRA:["a"-"z"] >
-  | < DIGITO:["0"-"9"] >
+  | < INTEIRO:["0"-"9"] >
+  | < REAL: (<INTEIRO>)*<PONTO>(<INTEIRO>)* >
 }
 
 
 <ESTADO_STRING> TOKEN :
 {
-	<ENDSTRING :  <ASPAS_DUPLAS> > : DEFAULT | < STRING : (~["\""])+ >
+  <ENDSTRING :  <ASPAS_DUPLAS> > : DEFAULT | < STRING : (~["\""])+ >
 }
 
 
@@ -111,13 +116,13 @@ TOKEN :
 void bc():
 { /* Variáveis */ }
 {
-  (comando() | definicao_de_funcao())+
+  (comando_composto() | definicao_de_funcao())+
 }
 
 void comando():
 { /* Variáveis */ }
 {
-  (e() | comando_composto() | cIf() | cWhile() | cFor() | cNull() | cBreak() | cContinue() | cQuit() | cPrint() | cString() | cReturn() )
+  ( e() | cIf() | cWhile() | cFor() | cNull() | cBreak() | cContinue() | cQuit() | cPrint() | cString() | cReturn() )
 }
 
 void comando_composto():
@@ -129,25 +134,25 @@ void comando_composto():
 void lista_comandos():
 { /* Variáveis */ }
 {
-  comando() (<SEPARADOR> comando())*
+  comando() (LOOKAHEAD(2)<SEPARADOR> comando())*
 }
 
 void cIf():
 { /* Variáveis */ }
 {
-  <IF> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando() [<ELSE> comando()]
+  <IF> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando_composto() [LOOKAHEAD(2)<ELSE> comando_composto()]
 }
 
 void cWhile():
 { /* Variáveis */ }
 {
-  <WHILE> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando()
+  <WHILE> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando_composto()
 }
 
 void cFor():
 { /* Variáveis */ }
 {
-  <FOR> <ABRE_PARENTESES> [e()] ; [e()] ; [e()] <FECHA_PARENTESES> comando()
+  <FOR> <ABRE_PARENTESES> [e()] <PONTO_VIRGULA> [e()] <PONTO_VIRGULA> [e()] <FECHA_PARENTESES> comando_composto()
 }
 
 void cNull():
@@ -183,7 +188,13 @@ void cPrint():
 void lista_expressoes():
 { /* Variáveis */ }
 {
-  e() (, e())*
+  e() (<VIRGULA> e())*
+}
+
+void cString():
+{ /* Variáveis */ }
+{
+  <ASPAS_DUPLAS>
 }
 
 void cReturn():
@@ -192,3 +203,109 @@ void cReturn():
   <RETORNO>
 }
 
+void e():
+{ /* Variáveis */ }
+{
+  e1() (<OU_LOGICO> e1())*
+}
+
+void e1():
+{ /* Variáveis */ }
+{
+  e2() (<E_LOGICO> e2())*
+}
+
+void e2():
+{ /* Variáveis */ }
+{
+  [<NEGACAO>] e3()
+}
+
+void e3():
+{ /* Variáveis */ }
+{
+  e4() [(<IGUAL> | <MENOR_IGUAL> | <MAIOR_IGUAL> | <DIFERENTE> | <MENOR> | <MAIOR>) e4()]
+}
+
+void e4():
+{ /* Variáveis */ }
+{
+  LOOKAHEAD(3)<ID> [<ABRE_COLCHETE> e() <FECHA_COLCHETE>] (<ATRIBUI> | <ATRIBUI_SOMANDO> | <ATRIBUI_SUBTRAINDO> | <ATRIBUI_MULTIPLICANDO> | <ATRIBUI_DIVINDO> | <ATRIBUI_RESTO> | <ATRIBUI_POTENCIA>) e4() 
+  | e5()
+}
+
+void e5():
+{ /* Variáveis */ }
+{
+  e6()( LOOKAHEAD(2)(<SOMA> | <SUBTRACAO>) e6() )*
+}
+
+void e6():
+{ /* Variáveis */ }
+{
+  e7() ( (<MULTIPLICACAO> | <DIVISAO> | <RESTO>) e7())*
+}
+
+void e7():
+{ /* Variáveis */ }
+{
+  e8() [(<POTENCIA> e7())]
+}
+
+void e8():
+{ /* Variáveis */ }
+{
+  [<SUBTRACAO>] e9()
+}
+
+void e9():
+{ /* Variáveis */ }
+{
+  (<INCREMENTO> | <DECREMENTO>) <ID> [<ABRE_COLCHETE> e() <FECHA_COLCHETE>] 
+  | LOOKAHEAD(3)<ID> [<ABRE_COLCHETE> e() <FECHA_COLCHETE>] (<INCREMENTO> | <DECREMENTO>) 
+  | e10()
+}
+
+void e10():
+{ /* Variáveis */ }
+{
+  <INTEIRO> 
+  | <REAL> 
+  | <ABRE_PARENTESES> e() <FECHA_PARENTESES>
+  | <RAIZ_QUADRADA> <ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | <TAMANHO> <ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | LOOKAHEAD(2)<ESCALA> <ABRE_PARENTESES> e() <FECHA_PARENTESES>
+  | LOOKAHEAD(2)chamada_funcao() 
+  | <ID> [<ABRE_COLCHETE> e() <FECHA_COLCHETE>] 
+  | <IBASE> 
+  | <OBASE> 
+  | <ESCALA> 
+  | <LAST> 
+  | <PONTO> 
+  | "s"<ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | "c"<ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | "e"<ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | "l"<ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | "a"<ABRE_PARENTESES> e() <FECHA_PARENTESES> 
+  | "j"<ABRE_PARENTESES> e() <VIRGULA> e() <FECHA_PARENTESES> 
+}
+
+void chamada_funcao():
+{ /* Variáveis */ }
+{
+  <ID><ABRE_PARENTESES>[lista_expressoes()]<FECHA_PARENTESES>
+}
+
+void definicao_de_funcao():
+{ /* Variáveis */ }
+{
+  <DEFINICAO> <ID> <ABRE_PARENTESES> [lista_var()] <FECHA_PARENTESES><ABRE_CHAVES>
+  [<AUTO> lista_var()]
+  lista_comandos() <FECHA_CHAVES>
+}
+
+void lista_var():
+{ /* Variáveis */ }
+{
+  <ID>[<ABRE_COLCHETE><FECHA_COLCHETE>] (<VIRGULA> <ID>[<ABRE_COLCHETE><FECHA_COLCHETE>])*
+}

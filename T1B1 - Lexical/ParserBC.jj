@@ -49,8 +49,11 @@ SKIP :
 
 TOKEN :
 {
-  < SEPARADOR: ";" | "\n" | "|" > 
+  < PONTO_VIRGULA : ";" >
+  |< SEPARADOR: <PONTO_VIRGULA> | "\n" | "|" > 
   | <DEFINICAO: "define" > 
+  | < ABRE_COLCHETE : "[" >
+  | < FECHA_COLCHETE : "]" >
   | < ABRE_CHAVES: "{" > 
   | < FECHA_CHAVES: "}" > 
   | < ABRE_PARENTESES: "("> 
@@ -58,7 +61,6 @@ TOKEN :
   | < IGUAL: "==" > 
   | < ASPAS_DUPLAS: "\"" > : ESTADO_STRING 
   | < OU_LOGICO: "||" > 
-  | < EXRESSAO: < OU_LOGICO > >
   | < E_LOGICO: "&&" > 
   | < NEGACAO: "!" > 
   | < MENOR_IGUAL: "<=" > 
@@ -82,9 +84,11 @@ TOKEN :
   | < INCREMENTO: "++" > 
   | < DECREMENTO: "--" > 
   | < PONTO: "." >
+  | < VIRGULA : "," >
 
-
+  | < AUTO: "auto" >
   | < IF: "if" > 
+  | < ELSE : "else" >
   | < WHILE: "while" > 
   | < FOR: "for" > 
   | < NULL: < SEPARADOR > | "null" > 
@@ -98,12 +102,13 @@ TOKEN :
   | < IBASE: "ibase" >
   | < OBASE: "obase" >
   | < LAST: "last" >
-  | < RETURN: "return" > 
+  | < RETORNO: "return" > 
 
 
-  | < ID: <LETRA> (<LETRA>|<DIGITO>)* >
+  | < ID: (<LETRA> (<LETRA>|<INTEIRO>)* ) >
   | < LETRA:["a"-"z"] >
-  | < DIGITO:["0"-"9"] >
+  | < INTEIRO:["0"-"9"] >
+  | < REAL: (<INTEIRO>)*<PONTO>(<INTEIRO>)* >
 }
 
 
