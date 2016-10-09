@@ -1,0 +1,113 @@
+PARSER_BEGIN(ParserBC)
+
+public class ParserBC 
+{
+  
+	public  static void main(String args[]) 
+	{
+
+	    
+	    try 
+	    {
+	    	ParserBC parser = new ParserBC (System.in);
+		    Token token = getNextToken();
+
+	        while(token.kind != 0)
+	        {	
+
+	        	System.out.format("@(%3d, %3d) %20s - %20s\n", token.beginLine, token.beginColumn, tokenImage[token.kind], token.image);
+	        	token = getNextToken();
+	       	}
+	       	System.out.println("SUCESSO");
+	    } 
+	    catch (Throwable e) 
+	    {
+	        System.out.printf("ERRO EM (%d, %d)\n\n", token.beginLine, token.beginColumn);
+	    }
+	}  
+
+} 
+
+PARSER_END(ParserBC)
+
+SKIP :
+{
+  " " | "\t" | "\n" | "\r" | "\f" | <COMENTARIO_LINHA: "//" (~["\n"])* ("\n" | "\n\r")>
+}
+
+
+SKIP :
+{
+  "/*" : COMENTARIO_MULTILINHA
+}
+
+<COMENTARIO_MULTILINHA> SKIP:
+{
+   "*/" : DEFAULT |  <~[]> 
+}
+
+
+TOKEN :
+{
+  < SEPARADOR: ";" | "\n" | "|" > 
+  | <DEFINICAO: "define" > 
+  | < ABRE_CHAVES: "{" > 
+  | < FECHA_CHAVES: "}" > 
+  | < ABRE_PARENTESES: "("> 
+  | < FECHA_PARENTESES: ")" > 
+  | < IGUAL: "==" > 
+  | < ASPAS_DUPLAS: "\"" > : ESTADO_STRING 
+  | < OU_LOGICO: "||" > 
+  | < EXRESSAO: < OU_LOGICO > >
+  | < E_LOGICO: "&&" > 
+  | < NEGACAO: "!" > 
+  | < MENOR_IGUAL: "<=" > 
+  | < MAIOR_IGUAL: ">=" > 
+  | < DIFERENTE: "!=" > 
+  | < MENOR: "<" > 
+  | < MAIOR: ">" > 
+  | < ATRIBUI: "=" > 
+  | < ATRIBUI_SOMANDO: "+=" > 
+  | < ATRIBUI_SUBTRAINDO: "-="> 
+  | < ATRIBUI_MULTIPLICANDO: "*=" > 
+  | < ATRIBUI_DIVINDO: "/=" > 
+  | < ATRIBUI_RESTO: "%=" > 
+  | < ATRIBUI_POTENCIA: "^=" > 
+  | < SOMA: "+" > 
+  | < SUBTRACAO: "-" > 
+  | < MULTIPLICACAO: "*" > 
+  | < DIVISAO: "/" > 
+  | < RESTO: "%" > 
+  | < POTENCIA: "^" > 
+  | < INCREMENTO: "++" > 
+  | < DECREMENTO: "--" > 
+  | < PONTO: "." >
+
+
+  | < IF: "if" > 
+  | < WHILE: "while" > 
+  | < FOR: "for" > 
+  | < NULL: < SEPARADOR > | "null" > 
+  |	< BREAK: "break" > 
+  | < CONTINUE: "continue" > 
+  | < QUIT: "quit" > 
+  | < PRINT: "print" > 
+  | < RAIZ_QUADRADA: "sqrt"> 
+  | < TAMANHO: "lenght">
+  | < ESCALA: "scale" >
+  | < IBASE: "ibase" >
+  | < OBASE: "obase" >
+  | < LAST: "last" >
+  | < RETURN: "return" > 
+
+
+  | < ID: <LETRA> (<LETRA>|<DIGITO>)* >
+  | < LETRA:["a"-"z"] >
+  | < DIGITO:["0"-"9"] >
+}
+
+
+<ESTADO_STRING> TOKEN :
+{
+	<ENDSTRING :  <ASPAS_DUPLAS> > : DEFAULT | < STRING : (~["\""])+ >
+}

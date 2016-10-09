@@ -1,0 +1,194 @@
+PARSER_BEGIN(ParserBC)
+
+public class ParserBC 
+{
+  
+	public  static void main(String args[]) 
+	{
+
+	    
+	    try 
+	    {
+	    	ParserBC parser = new ParserBC (System.in);
+		    
+	    } 
+	    catch (Throwable e) 
+	    {
+	        System.out.printf("ERRO EM (%d, %d)\n\n", token.beginLine, token.beginColumn);
+	    }
+	}  
+
+} 
+
+PARSER_END(ParserBC)
+
+SKIP :
+{
+  " " | "\t" | "\n" | "\r" | "\f" | <COMENTARIO_LINHA: "//" (~["\n"])* ("\n" | "\n\r")>
+}
+
+
+SKIP :
+{
+  "/*" : COMENTARIO_MULTILINHA
+}
+
+<COMENTARIO_MULTILINHA> SKIP:
+{
+   "*/" : DEFAULT |  <~[]> 
+}
+
+
+TOKEN :
+{
+  < SEPARADOR: ";" | "\n" | "|" > 
+  | <DEFINICAO: "define" > 
+  | < ABRE_CHAVES: "{" > 
+  | < FECHA_CHAVES: "}" > 
+  | < ABRE_PARENTESES: "("> 
+  | < FECHA_PARENTESES: ")" > 
+  | < IGUAL: "==" > 
+  | < ASPAS_DUPLAS: "\"" > : ESTADO_STRING 
+  | < OU_LOGICO: "||" > 
+  | < EXRESSAO: < OU_LOGICO > >
+  | < E_LOGICO: "&&" > 
+  | < NEGACAO: "!" > 
+  | < MENOR_IGUAL: "<=" > 
+  | < MAIOR_IGUAL: ">=" > 
+  | < DIFERENTE: "!=" > 
+  | < MENOR: "<" > 
+  | < MAIOR: ">" > 
+  | < ATRIBUI: "=" > 
+  | < ATRIBUI_SOMANDO: "+=" > 
+  | < ATRIBUI_SUBTRAINDO: "-="> 
+  | < ATRIBUI_MULTIPLICANDO: "*=" > 
+  | < ATRIBUI_DIVINDO: "/=" > 
+  | < ATRIBUI_RESTO: "%=" > 
+  | < ATRIBUI_POTENCIA: "^=" > 
+  | < SOMA: "+" > 
+  | < SUBTRACAO: "-" > 
+  | < MULTIPLICACAO: "*" > 
+  | < DIVISAO: "/" > 
+  | < RESTO: "%" > 
+  | < POTENCIA: "^" > 
+  | < INCREMENTO: "++" > 
+  | < DECREMENTO: "--" > 
+  | < PONTO: "." >
+
+
+  | < IF: "if" > 
+  | < ELSE: "else" >
+  | < WHILE: "while" > 
+  | < FOR: "for" > 
+  | < NULL: < SEPARADOR > | "null" > 
+  |	< BREAK: "break" > 
+  | < CONTINUE: "continue" > 
+  | < QUIT: "quit" > 
+  | < PRINT: "print" > 
+  | < RAIZ_QUADRADA: "sqrt"> 
+  | < TAMANHO: "lenght">
+  | < ESCALA: "scale" >
+  | < IBASE: "ibase" >
+  | < OBASE: "obase" >
+  | < LAST: "last" >
+  | < RETORNO: "return" > 
+
+
+  | < ID: <LETRA> (<LETRA>|<DIGITO>)* >
+  | < LETRA:["a"-"z"] >
+  | < DIGITO:["0"-"9"] >
+}
+
+
+<ESTADO_STRING> TOKEN :
+{
+	<ENDSTRING :  <ASPAS_DUPLAS> > : DEFAULT | < STRING : (~["\""])+ >
+}
+
+
+/*Análise léxica*/
+
+void bc():
+{ /* Variáveis */ }
+{
+  (comando() | definicao_de_funcao())+
+}
+
+void comando():
+{ /* Variáveis */ }
+{
+  (e() | comando_composto() | cIf() | cWhile() | cFor() | cNull() | cBreak() | cContinue() | cQuit() | cPrint() | cString() | cReturn() )
+}
+
+void comando_composto():
+{ /* Variáveis */ }
+{
+  lista_comandos()
+}
+
+void lista_comandos():
+{ /* Variáveis */ }
+{
+  comando() (<SEPARADOR> comando())*
+}
+
+void cIf():
+{ /* Variáveis */ }
+{
+  <IF> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando() [<ELSE> comando()]
+}
+
+void cWhile():
+{ /* Variáveis */ }
+{
+  <WHILE> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando()
+}
+
+void cFor():
+{ /* Variáveis */ }
+{
+  <FOR> <ABRE_PARENTESES> [e()] ; [e()] ; [e()] <FECHA_PARENTESES> comando()
+}
+
+void cNull():
+{ /* Variáveis */ }
+{
+  <SEPARADOR>
+}
+
+void cBreak():
+{ /* Variáveis */ }
+{
+  <BREAK>
+}
+
+void cContinue():
+{ /* Variáveis */ }
+{
+  <CONTINUE>
+}
+
+void cQuit():
+{ /* Variáveis */ }
+{
+  <QUIT>
+}
+
+void cPrint():
+{ /* Variáveis */ }
+{
+  <PRINT> lista_expressoes()
+}
+
+void lista_expressoes():
+{ /* Variáveis */ }
+{
+  e() (, e())*
+}
+
+void cReturn():
+{ /* Variáveis */ }
+{
+  <RETORNO>
+}
+
