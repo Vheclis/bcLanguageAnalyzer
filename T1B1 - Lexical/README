@@ -1,0 +1,17 @@
+	Para executar o programa digite o seguinte comando no prompt:
+
+		java -jar bc.jar < in > out
+
+	Onde in é seu arquivo de entrada de testes e out onde deseja 
+	salvar o resultado do parser
+
+	Para compilar o programa novamente insira no prompt:
+
+		make all
+
+	e para rodar o programa com a entrada in_default e saida
+	out_default insira
+
+		make run
+
+	Há uma pasta com testes que dão erro.

@@ -15,73 +15,73 @@ public interface ParserBCConstants {
   /** RegularExpression Id. */
   int SEPARADOR = 11;
   /** RegularExpression Id. */
-  int DEFINICAO = 12;
+  int ABRE_COLCHETE = 12;
   /** RegularExpression Id. */
-  int ABRE_COLCHETE = 13;
+  int FECHA_COLCHETE = 13;
   /** RegularExpression Id. */
-  int FECHA_COLCHETE = 14;
+  int ABRE_CHAVES = 14;
   /** RegularExpression Id. */
-  int ABRE_CHAVES = 15;
+  int FECHA_CHAVES = 15;
   /** RegularExpression Id. */
-  int FECHA_CHAVES = 16;
+  int ABRE_PARENTESES = 16;
   /** RegularExpression Id. */
-  int ABRE_PARENTESES = 17;
+  int FECHA_PARENTESES = 17;
   /** RegularExpression Id. */
-  int FECHA_PARENTESES = 18;
+  int IGUAL = 18;
   /** RegularExpression Id. */
-  int IGUAL = 19;
+  int ASPAS_DUPLAS = 19;
   /** RegularExpression Id. */
-  int ASPAS_DUPLAS = 20;
+  int OU_LOGICO = 20;
   /** RegularExpression Id. */
-  int OU_LOGICO = 21;
+  int E_LOGICO = 21;
   /** RegularExpression Id. */
-  int E_LOGICO = 22;
+  int NEGACAO = 22;
   /** RegularExpression Id. */
-  int NEGACAO = 23;
+  int MENOR_IGUAL = 23;
   /** RegularExpression Id. */
-  int MENOR_IGUAL = 24;
+  int MAIOR_IGUAL = 24;
   /** RegularExpression Id. */
-  int MAIOR_IGUAL = 25;
+  int DIFERENTE = 25;
   /** RegularExpression Id. */
-  int DIFERENTE = 26;
+  int MENOR = 26;
   /** RegularExpression Id. */
-  int MENOR = 27;
+  int MAIOR = 27;
   /** RegularExpression Id. */
-  int MAIOR = 28;
+  int ATRIBUI = 28;
   /** RegularExpression Id. */
-  int ATRIBUI = 29;
+  int ATRIBUI_SOMANDO = 29;
   /** RegularExpression Id. */
-  int ATRIBUI_SOMANDO = 30;
+  int ATRIBUI_SUBTRAINDO = 30;
   /** RegularExpression Id. */
-  int ATRIBUI_SUBTRAINDO = 31;
+  int ATRIBUI_MULTIPLICANDO = 31;
   /** RegularExpression Id. */
-  int ATRIBUI_MULTIPLICANDO = 32;
+  int ATRIBUI_DIVINDO = 32;
   /** RegularExpression Id. */
-  int ATRIBUI_DIVINDO = 33;
+  int ATRIBUI_RESTO = 33;
   /** RegularExpression Id. */
-  int ATRIBUI_RESTO = 34;
+  int ATRIBUI_POTENCIA = 34;
   /** RegularExpression Id. */
-  int ATRIBUI_POTENCIA = 35;
+  int SOMA = 35;
   /** RegularExpression Id. */
-  int SOMA = 36;
+  int SUBTRACAO = 36;
   /** RegularExpression Id. */
-  int SUBTRACAO = 37;
+  int MULTIPLICACAO = 37;
   /** RegularExpression Id. */
-  int MULTIPLICACAO = 38;
+  int DIVISAO = 38;
   /** RegularExpression Id. */
-  int DIVISAO = 39;
+  int RESTO = 39;
   /** RegularExpression Id. */
-  int RESTO = 40;
+  int POTENCIA = 40;
   /** RegularExpression Id. */
-  int POTENCIA = 41;
+  int INCREMENTO = 41;
   /** RegularExpression Id. */
-  int INCREMENTO = 42;
+  int DECREMENTO = 42;
   /** RegularExpression Id. */
-  int DECREMENTO = 43;
+  int PONTO = 43;
   /** RegularExpression Id. */
-  int PONTO = 44;
+  int VIRGULA = 44;
   /** RegularExpression Id. */
-  int VIRGULA = 45;
+  int DEFINICAO = 45;
   /** RegularExpression Id. */
   int AUTO = 46;
   /** RegularExpression Id. */
@@ -150,7 +150,6 @@ public interface ParserBCConstants {
     "<token of kind 9>",
     "\";\"",
     "<SEPARADOR>",
-    "\"define\"",
     "\"[\"",
     "\"]\"",
     "\"{\"",
@@ -184,6 +183,7 @@ public interface ParserBCConstants {
     "\"--\"",
     "\".\"",
     "\",\"",
+    "\"define\"",
     "\"auto\"",
     "\"if\"",
     "\"else\"",
@@ -195,7 +195,7 @@ public interface ParserBCConstants {
     "\"quit\"",
     "\"print\"",
     "\"sqrt\"",
-    "\"lenght\"",
+    "\"length\"",
     "\"scale\"",
     "\"ibase\"",
     "\"obase\"",
