@@ -1,4 +1,4 @@
 define s(a)
 {
-  return 2
+  return 2+3
 }

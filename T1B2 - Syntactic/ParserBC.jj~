@@ -200,7 +200,7 @@ void cString():
 void cReturn():
 { /* Variáveis */ }
 {
-  <RETORNO> [( e() )]
+  <RETORNO>
 }
 
 void e():
@@ -299,7 +299,7 @@ void chamada_funcao():
 void definicao_de_funcao():
 { /* Variáveis */ }
 {
-  <DEFINICAO> <	ID> <ABRE_PARENTESES> [lista_var()] <FECHA_PARENTESES><ABRE_CHAVES>
+  <DEFINICAO> <ID> <ABRE_PARENTESES> [lista_var()] <FECHA_PARENTESES><ABRE_CHAVES>
   [<AUTO> lista_var()]
   lista_comandos() <FECHA_CHAVES>
 }
