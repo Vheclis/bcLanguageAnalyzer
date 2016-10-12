@@ -32,7 +32,7 @@ PARSER_END(ParserBC)
 
 SKIP :
 {
-  " " | "\t" | "\n" | "\r" | "\f" | <COMENTARIO_LINHA: "//" (~["\n"])* ("\n" | "\n\r")>
+  " " | "\t" | "\n" | "\r" | "\f" | <COMENTARIO_LINHA: "#" (~["\n"])* ("\n" | "\n\r")>
 }
 
 

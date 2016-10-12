@@ -7,6 +7,7 @@ define s(a)
   return -b
 }
 
+#ASDASDAS
 for(i=1 ; 1==1; i++){
                            a = a*x
                            b = b*a
@@ -23,7 +24,6 @@ for(i=1 ; 1==1; i++){
 s(3)
 
 
-
 if(a = 3)
 {
 	a -= 1
@@ -31,4 +31,9 @@ if(a = 3)
 else
 {
 	a += 1
+}
+
+while(a = 1)
+{
+  a++
 }

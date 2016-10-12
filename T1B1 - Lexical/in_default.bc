@@ -2,21 +2,21 @@
 o 
 comentário de multiplas linhas */
 
-//Testando comentário de uma linha
+#Testando comentário de uma linha
 
-//Próximos testes serão dos operadores e a string
+#Próximos testes serão dos operadores e a string
 
 ; | [] {} () == "asd" || && ! <= >=
 != < > = += -= *= /= %= ^= + - * /
 % ^ ++ -- ; ,
 
-//Próximos testes serão das palavras reservadas
+#Próximos testes serão das palavras reservadas
 
 define auto if else while for null break continue
 quit print sqrt length scale ibase obase last return
 
-//Próximos testes serão dos identificadores
+#Próximos testes serão dos identificadores
 
-asd a123 ad f qwe //ID
-0 1 2 3 4 5 6 7 8 9 10 11 123124231 //INTEIROS
-1.234 34.32	// REAIS
+asd a123 ad f qwe #ID
+0 1 2 3 4 5 6 7 8 9 10 11 123124231 #INTEIROS
+1.234 34.32	#REAIS

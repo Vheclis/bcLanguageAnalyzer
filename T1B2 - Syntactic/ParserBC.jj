@@ -25,7 +25,7 @@ PARSER_END(ParserBC)
 
 SKIP :
 {
-  " " | "\t" | "\n" | "\r" | "\f" | <COMENTARIO_LINHA: "//" (~["\n"])* ("\n" | "\n\r")>
+  " " | "\t" | "\n" | "\r" | "\f" | <COMENTARIO_LINHA: "#" (~["\n"])* ("\n" | "\n\r")>
 }
 
 
@@ -134,19 +134,21 @@ void comando_composto():
 void lista_comandos():
 { /* Variáveis */ }
 {
-  comando() ([LOOKAHEAD(2)(<SEPARADOR>|<PONTO_VIRGULA>)] comando())* 
+  comando() (LOOKAHEAD(2)[(<SEPARADOR>|<PONTO_VIRGULA>)] comando())* 
 }
 
 void cIf():
 { /* Variáveis */ }
 {
   <IF> <ABRE_PARENTESES> e() <FECHA_PARENTESES> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES> [LOOKAHEAD(2)<ELSE> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES>]
+  
 }
 
 void cWhile():
 { /* Variáveis */ }
 {
   <WHILE> <ABRE_PARENTESES> e() <FECHA_PARENTESES> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES>
+  
 }
 
 void cFor():
