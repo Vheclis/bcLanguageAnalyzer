@@ -1,0 +1,86 @@
+/*comentario
+de multiplas
+linhas*/
+
+#	Comentario de uma linha
+
+#	Testando o if e as expressões
+
+if(a == b)
+{
+	c = a || b
+	c = a && b
+	!b
+	c += b
+	c -= b
+	c *= b
+	c /= b
+	c %= b
+	c ^= b
+	c = a + b
+	c = a - b
+	c = a * b
+	c = a / b
+	c = a % b
+	c = a ^ b
+	c = -b
+	c = ++b
+	c = --b
+	c = 3;
+	a = 1.3432
+}
+
+#	Testando o while
+
+while(a > 0)
+{
+	a--
+}
+
+
+#	Testando for com expressoes
+
+for( a = 0 ; a < 10 ; a++)
+{
+	c = (3 * 4) / 7
+}
+
+#	Testando for sem expressoes, com break e continue
+
+for(  ;  ;  )
+{
+	c = (b * 4) / 7
+	if(c >= 900)
+	{
+		break
+	}
+	if(b >= 900)
+	{
+		continue
+	}
+}
+
+#	Testando o define 
+define h() {
+#	Testando o print e string
+	print 3 + 4, 4 * 3, !b
+	"hello"
+}
+
+#	Testando chamada de função
+h()
+s(3+2)
+c(3+2)
+e(3+2)
+a(3+2)
+l(3+2)
+j(3+2, 5*2)
+
+#	Testando o quit
+quit
+
+define h() {
+#	Testando o print e string
+	print 3 + 4, 4 * 3, !b
+	return
+}

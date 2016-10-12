@@ -1,0 +1,15 @@
+SUCESSO
+
+/*
+	Tivemos grande dificuldade em contornar o fato do separador "\n"
+	estar no SKIP e no tratamento de alguns lookaheads, que se mostraram
+	necessários para a execução correta da EBNF passada pela professora.
+
+	Outro problema era o uso de chaves no if, for e while, não conseguimos
+	fazer um caso que funcionasse e ele pegasse tanto com chaves (mais de
+	um comando) como sem chaves, então preferimos deixar com chaves.
+
+	Fizemos uma alteração na EBNF passada pela professora pois nela há recur-
+	são a esquerda (tiramos comando_composto de dentro de comando), o que não
+	é permitido no JavaCC.
+*/

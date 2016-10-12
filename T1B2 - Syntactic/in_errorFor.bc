@@ -1,0 +1,13 @@
+#Erros do For, comente o primeiro for para testar o segundo
+
+#for com separação errada
+for(a | b | c)
+{
+	a = -b
+}
+
+#for sem separação
+for(a   b   c)
+{
+	a = -b
+}

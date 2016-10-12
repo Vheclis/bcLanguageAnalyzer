@@ -1,0 +1,14 @@
+#Erros do if e while, comente o if para testar o while
+
+#If sem expressão
+
+if ()
+{ 
+	a++
+}
+
+#while sem expressão
+while ()
+{
+	a++
+}

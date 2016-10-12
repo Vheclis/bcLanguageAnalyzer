@@ -100,7 +100,7 @@ TOKEN :
 
   | < ID: <LETRA> (<LETRA>|<INTEIRO>)*  >
   | < LETRA:["a"-"z"] >
-  | < INTEIRO:["0"-"9"] >
+  | < INTEIRO:["0"-"9"] (["0"-"9"])* >
   | < REAL: (<INTEIRO>)*<PONTO>(<INTEIRO>)* >
 }
 
@@ -166,7 +166,7 @@ void cNull():
 void cBreak():
 { /* Variáveis */ }
 {
-  <BREAK>
+  <BREAK> 
 }
 
 void cContinue():
@@ -196,13 +196,13 @@ void lista_expressoes():
 void cString():
 { /* Variáveis */ }
 {
-  <ASPAS_DUPLAS>
+  <ASPAS_DUPLAS><STRING><ENDSTRING>
 }
 
 void cReturn():
 { /* Variáveis */ }
 {
-  <RETORNO> [LOOKAHEAD(2)e()] [LOOKAHEAD(2)(<SEPARADOR>|<PONTO_VIRGULA>)]
+  <RETORNO> [LOOKAHEAD(2)e()] 
 }
 
 void e():
