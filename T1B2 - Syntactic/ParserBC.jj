@@ -43,7 +43,7 @@ SKIP :
 TOKEN :
 {
   < PONTO_VIRGULA : ";" >
-  | < SEPARADOR: <PONTO_VIRGULA> |"\n" | "|" > 
+  |< SEPARADOR:  "\n" | "|" > 
   | <DEFINICAO: "define" > 
   | < ABRE_COLCHETE : "[" >
   | < FECHA_COLCHETE : "]" >
@@ -134,31 +134,31 @@ void comando_composto():
 void lista_comandos():
 { /* Variáveis */ }
 {
-  comando() (LOOKAHEAD(2)<SEPARADOR> comando())*
+  comando() ([LOOKAHEAD(2)(<SEPARADOR>|<PONTO_VIRGULA>)] comando())* 
 }
 
 void cIf():
 { /* Variáveis */ }
 {
-  <IF> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando_composto() [LOOKAHEAD(2)<ELSE> comando_composto()]
+  <IF> <ABRE_PARENTESES> e() <FECHA_PARENTESES> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES> [LOOKAHEAD(2)<ELSE> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES>]
 }
 
 void cWhile():
 { /* Variáveis */ }
 {
-  <WHILE> <ABRE_PARENTESES> e() <FECHA_PARENTESES> comando_composto()
+  <WHILE> <ABRE_PARENTESES> e() <FECHA_PARENTESES> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES>
 }
 
 void cFor():
 { /* Variáveis */ }
 {
-  <FOR> <ABRE_PARENTESES> [e()] <PONTO_VIRGULA> [e()] <PONTO_VIRGULA> [e()] <FECHA_PARENTESES> comando_composto()
+  <FOR> <ABRE_PARENTESES> [e()] <PONTO_VIRGULA> [e()] <PONTO_VIRGULA> [e()] <FECHA_PARENTESES> <ABRE_CHAVES> comando_composto() <FECHA_CHAVES>
 }
 
 void cNull():
 { /* Variáveis */ }
 {
-  <SEPARADOR>
+  (<SEPARADOR>|<PONTO_VIRGULA>)
 }
 
 void cBreak():
@@ -200,7 +200,7 @@ void cString():
 void cReturn():
 { /* Variáveis */ }
 {
-  <RETORNO> [( e() )]
+  <RETORNO> [LOOKAHEAD(2)e()] [LOOKAHEAD(2)(<SEPARADOR>|<PONTO_VIRGULA>)]
 }
 
 void e():
@@ -299,9 +299,9 @@ void chamada_funcao():
 void definicao_de_funcao():
 { /* Variáveis */ }
 {
-  <DEFINICAO> <	ID> <ABRE_PARENTESES> [lista_var()] <FECHA_PARENTESES><ABRE_CHAVES>
+  <DEFINICAO> <ID> <ABRE_PARENTESES> [lista_var()] <FECHA_PARENTESES><ABRE_CHAVES>
   [<AUTO> lista_var()]
-  lista_comandos() <FECHA_CHAVES>
+  lista_comandos() [cReturn()]  <FECHA_CHAVES>
 }
 
 void lista_var():
